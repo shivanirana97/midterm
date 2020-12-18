@@ -1,4 +1,4 @@
-package com.example.mobileapplication1;
+package com.example.listviewmidterm;
 
 import org.junit.Test;
 
