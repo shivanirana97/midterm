@@ -6,23 +6,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 
-public class  GithubListAdapter extends ArrayAdapter<String> {
+public class  GithubListAdapter extends BaseAdapter {
 
     private final Activity context;
-    private final ArrayList githubname;
-    private final ArrayList githubowner;
 
-    public GithubListAdapter(Activity context, ArrayList name, ArrayList ownerfullname) {
-        super(context, R.layout.github_list, name);
+    ArrayList<Name>  nameArrayList =new ArrayList<>();
+    public GithubListAdapter(Activity context, ArrayList<Name> nameArrayList) {
+
 
         this.context = context;
-        this.githubname = name;
-        this.githubowner = ownerfullname;
+        this.nameArrayList = nameArrayList;
+
+    }
+
+    @Override
+    public int getCount() {
+        return nameArrayList.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return nameArrayList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     public View getView(int position, View view, ViewGroup parent) {
@@ -31,9 +46,10 @@ public class  GithubListAdapter extends ArrayAdapter<String> {
 
         TextView nameText = (TextView) listview.findViewById(R.id.name);
         TextView fullNameText = (TextView) listview.findViewById(R.id.ownerfullName);
-        nameText.setText(githubname.get(position).toString());
-        fullNameText.setText(githubowner.get(position).toString());
-
+       // nameText.setText(githubname.get(position).toString());
+       // fullNameText.setText(githubowner.get(position).toString());
+        nameText.setText(nameArrayList.get(position).getName());
+        fullNameText.setText(nameArrayList.get(position).getLogin());
         return listview;
 
     }

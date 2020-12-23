@@ -25,8 +25,8 @@ class LoadNames extends AsyncTask<String,Integer,String> implements AdapterView.
     Context mainContext;
     ListView githublist;
     Activity context;
+    ArrayList<Name> nameArrayList =new ArrayList<>();
 
-    ArrayList githubnameList, githubfullNameList;
 
     public LoadNames(MainActivity mainActivity) {
         context=mainActivity;
@@ -67,25 +67,28 @@ class LoadNames extends AsyncTask<String,Integer,String> implements AdapterView.
     }
 
     private void fetchData(String link) {
-        githubnameList = new ArrayList();
-        githubfullNameList = new ArrayList();
+
         try {
             JSONArray mainGithubList = new JSONArray(link);
 
             for(int i =0; i<mainGithubList.length();i++)
             {
                 JSONObject contacts = mainGithubList.getJSONObject(i);
-                String gitHubName = contacts.getString("name");
+                 String gitHubName = contacts.getString("name");
+                String gitHooksUrl = contacts.getString("hooks_url");
+                String gitTeamUrl = contacts.getString("teams_url");
 
                 JSONObject objectOwner = contacts.getJSONObject("owner");
 
                 String githubLoginNameOwner = objectOwner.getString("login");
 
-                githubnameList.add(gitHubName);
-                githubfullNameList.add(githubLoginNameOwner);
+
+
+                nameArrayList.add(new Name(gitHubName,githubLoginNameOwner,gitHooksUrl,gitTeamUrl));
+
             }
 
-            GithubListAdapter adapter=new GithubListAdapter(context, githubnameList, githubfullNameList);
+            GithubListAdapter adapter=new GithubListAdapter(context, nameArrayList);
             githublist.setAdapter(adapter);
 
         } catch (JSONException e) {
@@ -98,7 +101,9 @@ class LoadNames extends AsyncTask<String,Integer,String> implements AdapterView.
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-
+        Intent intent = new Intent(mainContext,NameDetail.class);
+        intent.putExtra("nameDetail",nameArrayList.get(i));
+        mainContext.startActivity(intent);
     }
 }
 
