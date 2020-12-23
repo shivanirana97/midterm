@@ -25,11 +25,12 @@ public class NameDetail extends AppCompatActivity {
 
 
         Intent intent=getIntent();
-        Name contact=intent.getParcelableExtra("nameDetail");
-        name.setText(contact.getName());
-        login.setText(contact.getLogin());
-        hook.setText(contact.getHooksurl());
-        team.setText(contact.getTeamsurl());
+        Name namedata=intent.getParcelableExtra("nameDetail");
+
+        name.setText(namedata.getName());
+        login.setText(namedata.getLogin());
+        hook.setText(namedata.getHooksurl());
+        team.setText(namedata.getTeamsurl());
 
     }
 }
